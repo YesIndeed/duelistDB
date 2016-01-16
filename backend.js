@@ -1,37 +1,48 @@
 var dataURL = 'http://yugiohprices.com/api/card_data/';
 
 $(document).ready(function(){
-	$('#search').click(function(){
+	$('#search').click(function(e){
+		e.preventDefault();
 		var input = $('#searchInput').val();
-		/*console.log("spaghetti " + input);
-		$(document.body).append("<div>input</div>");
-		var request = new XMLHttpRequest();
-		request.open('GET', 'http://yugiohprices.com/api/card_data/' + input);*/
-		
-		var xhr = $.ajax(dataURL + input, {dataType : 'json'});
-		xhr.done(function(data, text_status, jqXhr){
-			console.log(data);
-			console.log(text_status);
-			if (text_status == "success")
-			{
-				// Show card information.
-				$(document.body).append("<div>" + input + "</div>");
-			}
-			else
-			{
-				// Card could not be found. Do something.
-			}
-		});
+		var queryResult = dataURL + input;
 
-		/*request.onreadystatechange = function() {
-			if (this.readyState === 4) {
-				console.log('Status:', this.status);
-				console.log('Headers:', this.getAllResponseHeaders());
-				console.log('Body:', this.responseText);
-			}
-		};
+		requestJSON(queryResult, function(json) {
+			if(json.status == "fail") {
+				$('#cardapidata').html("<h2>No Card Information Found</h2>");
+			} else {
 
-		request.send();
-		*/
+				// We have a card from the API then we display card info
+				var data = json.data;
+
+				var cardName = data.name;
+				var cardText = data.text;
+				var cardType = data.card_type;
+				var cardFamily = data.family;
+				var cardAttack = data.atk;
+				var cardDefense = data.def;
+				var cardLevel = data.level;
+
+				var outputHTML = '<h2>' + cardName + '</h2>';
+
+				outputHTML += '<li> Text: ' + cardText + '</li>';
+				outputHTML += '<li> Type: ' + cardType + '</li>';
+				outputHTML += '<li> Family: ' + cardFamily + '</li>';
+				outputHTML += '<li> Attack: ' + cardAttack + '</li>';
+				outputHTML += '<li> Defense: ' + cardDefense + '</li>';
+				outputHTML += '<li> Level: ' + cardLevel + '</li>';
+
+
+				$('#cardapidata').html(outputHTML); // Modify the div's data to outputHTML
+			} // end else statement
+		}); // end requestJSON Ajax call
 	});	
 });
+
+function requestJSON(url, callback) {
+$.ajax({
+  url: url,
+  complete: function(xhr) {
+    callback.call(null, xhr.responseJSON);
+  }
+});
+}
