@@ -1,4 +1,5 @@
 var dataURL = 'http://yugiohprices.com/api/card_data/';
+var imageURL = 'http://yugiohprices.com/api/card_image/'
 
 $(document).ready(function(){
 	$('#search').click(function(e){
@@ -31,8 +32,9 @@ $(document).ready(function(){
 				outputHTML += '<li> Defense: ' + cardDefense + '</li>';
 				outputHTML += '<li> Level: ' + cardLevel + '</li>';
 
-
+				imageHTML = "<img src=\"" + imageURL + cardName + "\" width=\"200\">"
 				$('#cardapidata').html(outputHTML); // Modify the div's data to outputHTML
+				$('#cardimage').html(imageHTML);
 			} // end else statement
 		}); // end requestJSON Ajax call
 	});	
