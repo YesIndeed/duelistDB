@@ -2,12 +2,15 @@ var dataURL = 'http://yugiohprices.com/api/card_data/';
 var imageURL = 'http://yugiohprices.com/api/card_image/'
 
 $(document).ready(function(){
+	$('#data').hide()
+
 	$('#search').click(function(e){
 		e.preventDefault();
 		var input = $('#searchInput').val();
 		var queryResult = dataURL + input;
 
 		requestJSON(queryResult, function(json) {
+		$('#data').show()
 			if(json.status == "fail") {
 				$('#cardapidata').html("<h2>No Card Information Found</h2>");
 			} else {
