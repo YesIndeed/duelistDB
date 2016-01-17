@@ -1,1 +1,2 @@
-web: gunicorn duelistDB:app
+
+web: python main.py -i json-rpc
