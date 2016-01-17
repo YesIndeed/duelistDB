@@ -2,6 +2,16 @@ var dataURL = 'http://yugiohprices.com/api/card_data/';
 var imageURL = 'http://yugiohprices.com/api/card_image/';
 var priceURL = 'http://yugiohprices.com/api/get_card_prices/';
 
+function bold(text)
+{
+	return '<strong>' + text + '</strong>';
+}
+
+function makeListItem(label, text)
+{
+	return '<li> ' + bold(label) + ': ' + text + '</li>';
+}
+
 $(document).ready(function(){
 	$('#data').hide()
 
@@ -30,12 +40,12 @@ $(document).ready(function(){
 
 				var outputHTML = '<h2>' + cardName + '</h2>';
 
-				outputHTML += '<li> Text: ' + cardText + '</li>';
-				outputHTML += '<li> Type: ' + cardType + '</li>';
-				outputHTML += '<li> Family: ' + cardFamily + '</li>';
-				outputHTML += '<li> Attack: ' + cardAttack + '</li>';
-				outputHTML += '<li> Defense: ' + cardDefense + '</li>';
-				outputHTML += '<li> Level: ' + cardLevel + '</li>';
+				outputHTML += makeListItem('Text', cardText);
+				outputHTML += makeListItem('Type', cardType);
+				outputHTML += makeListItem('Family', cardFamily);
+				outputHTML += makeListItem('Attack', cardAttack);
+				outputHTML += makeListItem('Defense', cardDefense);
+				outputHTML += makeListItem('Level/Rank', cardLevel);
 
 				imageHTML = "<img src=\"" + imageURL + cardName + "\" width=\"200\">"
 				$('#cardData').html(outputHTML); // Modify the div's data to outputHTML
@@ -52,6 +62,7 @@ $(document).ready(function(){
 				// We have a card price from the API then we display price info
 				var data = json.data;
 				var outputHTML = '<h2> Card Packs & Prices </h2>';
+				outputHTML += '<div class=\'pre-scrollable\'>'; // Add a div to make packs scrollable
 
 				$.each(data, function(index, value) {
 					var packName = value.name;
@@ -62,16 +73,17 @@ $(document).ready(function(){
 					if(value.price_data.status == "fail") {
 						priceHTML = 'No price information found for this card pack';
 					} else {
-						priceHTML += value.price_data.data.prices.average;
+						priceHTML += '$' + value.price_data.data.prices.average;
 					}
 
-					outputHTML += '<div>' + packName;
-					outputHTML += '<li> Print Tag: ' + packTag + '</li>';
-					outputHTML += '<li> Rarity: ' + packRarity + '</li>';
-					outputHTML += '<li> Price: ' + priceHTML + '</li>'; 
+					outputHTML += '<div>' + '<strong>' + packName + '</strong>';
+					outputHTML += makeListItem('Print Tag', packTag);
+					outputHTML += makeListItem('Rarity', packRarity);
+					outputHTML += makeListItem('Avg. Price', priceHTML); 
 					outputHTML += '</div>';
 				});
 
+				outputHTML += '</div>'; // End scrollable div.
 				$('#priceData').html(outputHTML);
 			} // end else statement
 	    });
