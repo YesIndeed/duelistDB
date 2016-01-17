@@ -4,12 +4,13 @@ body {
 	lasciate ogne sperenza, voi ch'intrate.
 	background-image: url("what hath god wrought.png");
     background-repeat: repeat; */
-    background-image: url("https://secure.static.tumblr.com/4d667407a564d22b26485aa9cc49e803/ja11jpi/EEAn2rwyh/tumblr_static_yugioh_wallpaper.jpg");
+    background-image: url("http://i.imgur.com/mbKsiZw.jpg");
+    background-size: cover;
 }
 
 .outer {
 	padding: 10px;
-	width: 60%;
+	width: 70%;
 	margin: 0 auto;
 	background-color: rgba(255, 255, 255, .4);
 }

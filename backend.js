@@ -53,8 +53,9 @@ $(document).ready(function(){
 		$('#data').show()
 			if(json.status == "fail") {
 				$('#cardData').html("<h2>No Card Information Found</h2>");
+				$('#cardImage').hide();
 			} else {
-
+				$('#cardImage').show();
 				// We have a card from the API then we display card info
 				var data = json.data;
 				var cardName = data.name;
