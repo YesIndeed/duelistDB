@@ -12,6 +12,34 @@ function makeListItem(label, text)
 	return '<li> ' + bold(label) + ': ' + text + '</li>';
 }
 
+function displayMonster(data) {
+
+	var cardText = data.text;
+	var cardFamily = data.family;
+	var cardAttack = data.atk;
+	var cardDefense = data.def;
+	var cardLevel = data.level;
+	var resultHTML = makeListItem('Text', cardText);
+
+	resultHTML += makeListItem('Family', cardFamily);
+	resultHTML += makeListItem('Attack', cardAttack);
+	resultHTML += makeListItem('Defense', cardDefense);
+	resultHTML += makeListItem('Level/Rank', cardLevel);
+
+	return resultHTML;
+}
+
+function displayOther(data) {
+
+	var cardText = data.text;
+	var cardProperty = data.property;
+	var resultHTML = makeListItem('Text', cardText);
+
+	resultHTML += makeListItem('Property', cardProperty);
+
+	return resultHTML;
+}
+
 $(document).ready(function(){
 	$('#data').hide()
 
@@ -29,23 +57,17 @@ $(document).ready(function(){
 
 				// We have a card from the API then we display card info
 				var data = json.data;
-
 				var cardName = data.name;
-				var cardText = data.text;
 				var cardType = data.card_type;
-				var cardFamily = data.family;
-				var cardAttack = data.atk;
-				var cardDefense = data.def;
-				var cardLevel = data.level;
 
 				var outputHTML = '<h2>' + cardName + '</h2>';
-
-				outputHTML += makeListItem('Text', cardText);
 				outputHTML += makeListItem('Type', cardType);
-				outputHTML += makeListItem('Family', cardFamily);
-				outputHTML += makeListItem('Attack', cardAttack);
-				outputHTML += makeListItem('Defense', cardDefense);
-				outputHTML += makeListItem('Level/Rank', cardLevel);
+
+				if(cardType == "monster") {
+					outputHTML += displayMonster(data);
+				} else if(cardType == "trap" || cardType == "spell") {
+					outputHTML += displayOther(data);
+				}
 
 				imageHTML = "<img src=\"" + imageURL + cardName + "\" width=\"200\">"
 				$('#cardData').html(outputHTML); // Modify the div's data to outputHTML
